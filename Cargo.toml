@@ -1,16 +1,16 @@
 [package]
-name = "template_crate"
-version = "0.0.0"
+name = "existential"
+version = "0.0.1"
 authors = ["Frank Steffahn <fdsteffahn@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = """
-Description goes here!!
+Existential quantification over lifetimes
 """
-repository = "https://github.com/steffahn/template_crate"
-homepage = "https://github.com/steffahn/template_crate"
-documentation = "https://docs.rs/template_crate"
-keywords = []
-categories = ["no-std"]
+repository = "https://github.com/steffahn/existential"
+homepage = "https://github.com/steffahn/existential"
+documentation = "https://docs.rs/existential"
+keywords = ["dyn", "lifetime"]
+categories = ["no-std", "rust-patterns"]
 readme = "README.md"
 edition = "2018"
 

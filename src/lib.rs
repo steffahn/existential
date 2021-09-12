@@ -28,7 +28,6 @@
     clippy::map_err_ignore,
     clippy::mem_forget,
     clippy::missing_docs_in_private_items,
-    clippy::missing_inline_in_public_items,
     clippy::modulo_arithmetic,
     clippy::multiple_inherent_impl,
     clippy::panic,
@@ -86,15 +85,19 @@
     rustdoc::invalid_html_tags
 )]
 
-//! [![crates.io]](https://crates.io/crates/template_crate)
-//! [![github]](https://github.com/steffahn/template_crate)
-//! [![MIT / Apache 2.0 licensed]](https://github.com/steffahn/template_crate#License)
+//! [![crates.io]](https://crates.io/crates/existential)
+//! [![github]](https://github.com/steffahn/existential)
+//! [![MIT / Apache 2.0 licensed]](https://github.com/steffahn/existential#License)
 //! [![unsafe forbidden]](https://github.com/rust-secure-code/safety-dance/)
 //!
-//! Module-level documentation goes here!!
+//! [Existential types](https://wiki.haskell.org/Existential_type) in Rust, offering existential
+//! quantification over lifetimes, but as a library. This works because Rust has
+//! [parametricity](https://en.wikipedia.org/wiki/Parametricity) for generic lifetime arguments.
+//! 
+//! _Work in progress; this crate is still undocumented._
 //!
-//! [github]: https://img.shields.io/badge/github-steffahn/template__crate-yellowgreen.svg
-//! [crates.io]: https://img.shields.io/crates/v/template_crate.svg
-//! [MIT / Apache 2.0 licensed]: https://img.shields.io/crates/l/template_crate.svg
-//! [docs.rs]: https://docs.rs/template_crate/badge.svg
+//! [github]: https://img.shields.io/badge/github-steffahn/existential-yellowgreen.svg
+//! [crates.io]: https://img.shields.io/crates/v/existential.svg
+//! [MIT / Apache 2.0 licensed]: https://img.shields.io/crates/l/existential.svg
+//! [docs.rs]: https://docs.rs/existential/badge.svg
 //! [unsafe forbidden]: https://img.shields.io/badge/unsafe-forbidden-success.svg
