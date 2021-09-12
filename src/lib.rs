@@ -117,7 +117,7 @@ where
     C: TyCon,
 {
     marker: PhantomData<&'lower_bound ()>,
-    inner: Apply<'static, C>,
+    inner: Apply<'lower_bound, C>,
 }
 
 impl<'lower_bound, C> Existential<'lower_bound, C>
@@ -129,7 +129,7 @@ where
         unsafe {
             Self {
                 marker: PhantomData,
-                inner: mem::transmute_copy::<Apply<'a, C>, Apply<'static, C>>(&inner),
+                inner: mem::transmute_copy::<Apply<'a, C>, Apply<'lower_bound, C>>(&inner),
             }
         }
     }
