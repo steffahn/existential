@@ -90,7 +90,7 @@
 //! [Existential types](https://wiki.haskell.org/Existential_type) in Rust, offering existential
 //! quantification over lifetimes, but as a library. This works because Rust has
 //! [parametricity](https://en.wikipedia.org/wiki/Parametricity) for generic lifetime arguments.
-//! 
+//!
 //! _TODO: this crate is still undocumented._
 //!
 //! [github]: https://img.shields.io/badge/github-steffahn/existential-yellowgreen.svg
