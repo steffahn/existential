@@ -1,5 +1,4 @@
 #![no_std]
-#![forbid(unsafe_code)]
 // reasonable clippy categories
 #![warn(clippy::pedantic, clippy::nursery, clippy::cargo)]
 // reasonable clippy::restriction lints
@@ -88,16 +87,69 @@
 //! [![crates.io]](https://crates.io/crates/existential)
 //! [![github]](https://github.com/steffahn/existential)
 //! [![MIT / Apache 2.0 licensed]](https://github.com/steffahn/existential#License)
-//! [![unsafe forbidden]](https://github.com/rust-secure-code/safety-dance/)
 //!
 //! [Existential types](https://wiki.haskell.org/Existential_type) in Rust, offering existential
 //! quantification over lifetimes, but as a library. This works because Rust has
 //! [parametricity](https://en.wikipedia.org/wiki/Parametricity) for generic lifetime arguments.
 //! 
-//! _Work in progress; this crate is still undocumented._
+//! _TODO: this crate is still undocumented._
 //!
 //! [github]: https://img.shields.io/badge/github-steffahn/existential-yellowgreen.svg
 //! [crates.io]: https://img.shields.io/crates/v/existential.svg
 //! [MIT / Apache 2.0 licensed]: https://img.shields.io/crates/l/existential.svg
 //! [docs.rs]: https://docs.rs/existential/badge.svg
-//! [unsafe forbidden]: https://img.shields.io/badge/unsafe-forbidden-success.svg
+
+use core::{
+    marker::PhantomData,
+    mem::{self, ManuallyDrop},
+};
+
+pub trait TyConFor<'a> {
+    type Applied;
+}
+
+pub type Apply<'a, C> = <C as TyConFor<'a>>::Applied;
+
+pub trait TyCon: for<'a> TyConFor<'a> {}
+impl<C: ?Sized> TyCon for C where C: for<'a> TyConFor<'a> {}
+
+pub struct Existential<'lower_bound, C>
+where
+    C: TyCon,
+{
+    marker: PhantomData<&'lower_bound ()>,
+    inner: Apply<'static, C>,
+}
+
+impl<'lower_bound, C> Existential<'lower_bound, C>
+where
+    C: TyCon,
+{
+    pub fn new<'a: 'lower_bound>(inner: Apply<'a, C>) -> Existential<'lower_bound, C> {
+        let inner = ManuallyDrop::new(inner);
+        unsafe {
+            Self {
+                marker: PhantomData,
+                inner: mem::transmute_copy::<Apply<'a, C>, Apply<'static, C>>(&inner),
+            }
+        }
+    }
+    pub fn with<'s, F, O>(&'s self, f: F) -> O
+    where
+        F: for<'a> FnOnce(&'s Apply<'a, C>, PhantomData<&'lower_bound &'a ()>) -> O,
+    {
+        f(&self.inner, PhantomData)
+    }
+    pub fn with_mut<'s, F, O>(&'s mut self, f: F) -> O
+    where
+        F: for<'a> FnOnce(&'s mut Apply<'a, C>, PhantomData<&'lower_bound &'a ()>) -> O,
+    {
+        f(&mut self.inner, PhantomData)
+    }
+    pub fn with_owned<F, O>(self, f: F) -> O
+    where
+        F: for<'a> FnOnce(Apply<'a, C>, PhantomData<&'lower_bound &'a ()>) -> O,
+    {
+        f(self.inner, PhantomData)
+    }
+}
