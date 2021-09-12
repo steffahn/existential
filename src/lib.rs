@@ -63,7 +63,6 @@
     non_ascii_idents,
     noop_method_call,
     semicolon_in_expressions_from_macros,
-    single_use_lifetimes,
     trivial_casts,
     trivial_numeric_casts,
     unreachable_pub,
